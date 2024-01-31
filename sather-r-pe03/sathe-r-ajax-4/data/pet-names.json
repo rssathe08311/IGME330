@@ -1,0 +1,20 @@
+{
+  "c9532dc9": {
+		"type": "dognames",
+		"popularity": 5,
+		"title": "Dog Names",
+		"namelist": ["Bella", "Luna", "Charlie", "Lucy", "Cooper", "Max", "Bailey", "Daisy", "Sadie", "Lola", "Buddy", "Molly", "Stella", "Tucker", "Bear", "Zoey", "Duke", "Harley", "Maggie", "Jax"]
+  },
+  "69bab900": {
+		"type": "catnames",
+		"popularity": 4,
+		"title": "Cat Names",
+		"namelist": ["Oliver", "Leo", "Milo", "Charlie", "Simba", "Max", "Jack", "Loki", "Tiger", "Jasper", "Ollie", "Oscar", "George", "Buddy", "Toby", "Smokey", "Finn", "Felix", "Simon", "Shadow"]
+  },
+  "58c0b5d5": {
+		"type": "birdnames",
+		"popularity": 7,
+		"title": "Bird Names",
+		"namelist": ["Buddy", "Blue", "Lucky", "Tiny", "Patches", "Feathers", "Chipper", "Woodstock", "Phoenix", "Sparky", "Billie", "Scuttle", "Tweety", "Rio", "Hoppy", "Screech", "Plucky", "Skye", "Zippy", "Chip"]
+  }
+}
