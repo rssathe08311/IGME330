@@ -30,13 +30,15 @@
 
 		let ctx;
 		let paused = false;
+		let canvas;
+		let createRectangles = true;
 	
 		function init(){
 			console.log("page loaded!");
 			// #2 Now that the page has loaded, start drawing!
 			
 			// A - `canvas` variable points at <canvas> tag
-			let canvas = document.querySelector("canvas");
+			canvas = document.querySelector("canvas");
 			
 			// B - the `ctx` variable points at a "2D drawing context"
 			ctx = canvas.getContext("2d");
@@ -139,19 +141,38 @@
 			ctx.lineWidth = 20;
 			ctx.stroke();
 
+			setupUI();
+
 			update();
 		}
 
 		function update(){
+			if(paused) return;
 			requestAnimationFrame(update);
-			drawRandomRect(ctx)
+			if (createRectangles) drawRandomRect(ctx);
 		}
 
-		//helpers - @ 3:07 in the video
+		//helpers
 		function setupUI(){
+			let clicked = false;
 			document.querySelector("#btnPause").onclick = function(){
 				paused = true;
+				clicked = true;
 			};
+
+			document.querySelector("#btnPlay").onclick = function(){
+				paused = false;
+				if(clicked){
+					clicked = false;
+					update();
+				}
+			};
+
+			canvas.onclick = canvasClicked;
+
+			document.querySelector("#cbRectangles").onclick = function(e){
+				createRectangles = e.target.checked;
+			}
 		}
 
 		// handy utility functions!
@@ -167,20 +188,15 @@
 		}
 
 		function drawRandomRect(ctx){
-			ctx.strokeStyle = getRandomColor();
             ctx.fillStyle = getRandomColor();
-			ctx.lineWidth = getRandomInt(2,12);
-
-			ctx.beginPath();
-            ctx.rect(getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90),getRandomInt(10, 90));
-			ctx.closePath();
-			ctx.fill();
-			//ctx.stroke();
 
 			ctx.beginPath();
             ctx.arc(getRandomInt(0, 640),getRandomInt(0, 480),getRandomInt(0, 30),Math.PI * 2,0,false);
 			ctx.closePath();
 			ctx.fill();
+
+			//drawRectangle(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black")
+			drawRectangle(ctx,getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90),getRandomInt(10, 90),getRandomColor(),0,getRandomColor())
 
 		}
 
@@ -190,6 +206,34 @@
 			let mouseX = e.clientX - rect.x;
 			let mouseY = e.clientY - rect.y;
 			console.log(mouseX,mouseY);
+
+			for(let i = 0; i < 10; i++){
+				let x = getRandomInt(-100,100) + mouseX;
+				let y = getRandomInt(-100,100) + mouseY;
+				let width = getRandomInt(20,50);
+				let height = getRandomInt(20,50);
+				let color = getRandomColor();
+				drawRectangle(ctx, x, y, width, height, color);
+			}
+
+		}
+
+		//canvas helpers 
+		function drawRectangle(ctx,x,y,width,height,fillStyle="black",lineWidth=0,strokeStyle="black"){
+			ctx.save();
+			ctx.fillStyle = fillStyle;
+			ctx.beginPath();
+			ctx.rect(x,y,width,height);
+			ctx.fill();
+
+			if(lineWidth > 0){
+				ctx.lineWidth = lineWidth;
+				ctx.strokeStyle = strokeStyle;
+				ctx.stroke();
+			}
+
+			ctx.closePath();
+			ctx.restore();
 		}
 
 	</script>
