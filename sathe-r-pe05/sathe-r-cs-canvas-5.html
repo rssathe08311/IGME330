@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>First Canvas</title>
+	<title>Screensaver</title>
 	<style>
 		canvas{
 			border:1px solid gray;
@@ -32,6 +32,8 @@
 		let paused = false;
 		let canvas;
 		let createRectangles = true;
+		let createArcs = true;
+		let createLines = true;
 	
 		function init(){
 			console.log("page loaded!");
@@ -43,103 +45,40 @@
 			// B - the `ctx` variable points at a "2D drawing context"
 			ctx = canvas.getContext("2d");
 			
-			// C - all fill operations are now in red
-			ctx.fillStyle = "#ffca80"; 
-			
-			// D - fill a rectangle with the current fill color
-			ctx.fillRect(20,20,600,440); 
 
-			ctx.strokeStyle = "#66ccd1";
-            ctx.fillStyle = "#a4f5d7";
-			ctx.lineWidth = 20;
+			drawRectangle(ctx,20,20,600,440,"#ffca80")
 
-			ctx.beginPath();
-            ctx.rect(120, 120, 400,300);
-			ctx.closePath();
-			ctx.fill();
-			ctx.stroke();
+			drawRectangle(ctx,120,120,400,300,"#a4f5d7",20,"#66ccd1")
 
-			//lines
-			ctx.beginPath();
-            ctx.moveTo(20,20);
-			ctx.lineTo(620,460);
-			ctx.closePath();
-			ctx.lineWidth = 15;
-			ctx.stroke();
+			drawLine(ctx,20,20,620,460,15,"#66ccd1")
+			drawLine(ctx,20,460,620,20,15,"#66ccd1")
 
-			ctx.beginPath();
-            ctx.moveTo(20,460);
-			ctx.lineTo(620,20);
-			ctx.closePath();
-			ctx.stroke();
 
 
 			//circle
-			ctx.beginPath();
-            ctx.arc(320,240,50,0,Math.PI * 2, false);
-			ctx.closePath();
-			ctx.fill();
-			ctx.lineWidth = 10;
-			ctx.stroke();
+			drawArc(ctx,320,240,50,0,Math.PI*2,"#a4f5d7",5,"#66ccd1")
+
 
 			//semi circle
-			ctx.fillStyle = "#ffffff";
-			ctx.beginPath();
-            ctx.arc(320,250,20,0,Math.PI,false);
-			ctx.closePath();
-			ctx.fill();
-			ctx.lineWidth = 5;
-			ctx.stroke();
+			drawArc(ctx,320,250,20,0,Math.PI,"#ffffff",5,"#66ccd1")
 
-			//eyes - small circle
-			ctx.strokeStyle = "#66ccd1";
-			ctx.beginPath();
-            ctx.arc(300,220,15,0,Math.PI * 2, false);
-			ctx.closePath();
-			ctx.fill();
-			ctx.lineWidth = 2;
-			ctx.stroke();
 
-			ctx.beginPath();
-            ctx.arc(340,220,15,0,Math.PI * 2, false);
-			ctx.closePath();
-			ctx.fill();
-			ctx.stroke();
+			//eyes
+			drawArc(ctx,300,220,15,0,Math.PI*2,"#ffffff",2,"#66ccd1")
+			drawArc(ctx,340,220,15,0,Math.PI*2,"#ffffff",2,"#66ccd1")
 
-			ctx.fillStyle = "#000000";
-			ctx.beginPath();
-            ctx.arc(300,220,5,0,Math.PI * 2, false);
-			ctx.closePath();
-			ctx.fill();
-
-			ctx.beginPath();
-            ctx.arc(340,220,5,0,Math.PI * 2, false);
-			ctx.closePath();
-			ctx.fill();
+			drawArc(ctx,300,220,5,0,Math.PI*2,"#000000")
+			drawArc(ctx,340,220,5,0,Math.PI*2,"#000000")
+			
 
 			//eyelids
-			ctx.strokeStyle = "#66ccd1";
-            ctx.fillStyle = "#a4f5d7";
-			ctx.beginPath();
-            ctx.arc(300,220,15,Math.PI,0,false);
-			ctx.closePath();
-			ctx.fill();
-			ctx.lineWidth = 2;
-			ctx.stroke();
+			drawArc(ctx,300,220,15,Math.PI,0,"#a4f5d7",2,"#66ccd1");
+			drawArc(ctx,340,220,15,Math.PI,0,"#a4f5d7",2,"#66ccd1")
 
-			ctx.beginPath();
-            ctx.arc(340,220,15,Math.PI,0,false);
-			ctx.closePath();
-			ctx.fill();
-			ctx.stroke();
 
 			//line
-			ctx.beginPath();
-            ctx.moveTo(20,340);
-			ctx.lineTo(620,340);
-			ctx.closePath();
-			ctx.lineWidth = 20;
-			ctx.stroke();
+			drawLine(ctx,20,340,620,340,20,"#66ccd1")
+
 
 			setupUI();
 
@@ -149,7 +88,8 @@
 		function update(){
 			if(paused) return;
 			requestAnimationFrame(update);
-			drawRandomCircle(ctx);
+			if(createArcs) drawRandomArc(ctx);
+			if (createLines) drawRandomLine(ctx);
 			if (createRectangles) drawRandomRect(ctx);
 		}
 
@@ -169,10 +109,27 @@
 				}
 			};
 
+			document.querySelector("#btnClear").onclick = function(){
+				paused = true;
+				clicked = true;
+
+				ctx.fillStyle = "#ffca80";
+				ctx.fillRect(0,0,640,480);
+				ctx.fill();
+			};
+
 			canvas.onclick = canvasClicked;
 
 			document.querySelector("#cbRectangles").onclick = function(e){
 				createRectangles = e.target.checked;
+			}
+
+			document.querySelector("#cbArcs").onclick = function(e){
+				createArcs = e.target.checked;
+			}
+
+			document.querySelector("#cbLines").onclick = function(e){
+				createLines = e.target.checked;
 			}
 		}
 
@@ -193,13 +150,14 @@
 			drawRectangle(ctx,getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90),getRandomInt(10, 90),getRandomColor(),0,getRandomColor())
 		}
 
-		function drawRandomCircle(ctx){
-			ctx.fillStyle = getRandomColor();
+		function drawRandomArc(ctx){
+			//drawArc(ctx, x, y, radius, startAngle = 0, endAngle = Math.PI*2, fillStyle="black",lineWidth=0,strokeStyle="black")
+			drawArc(ctx, getRandomInt(0, 640), getRandomInt(0, 480),getRandomInt(0, 30),0,Math.PI * 2, getRandomColor());
+		}
 
-			ctx.beginPath();
-            ctx.arc(getRandomInt(0, 640),getRandomInt(0, 480),getRandomInt(0, 30),Math.PI * 2,0,false);
-			ctx.closePath();
-			ctx.fill();
+		function drawRandomLine(ctx){
+			//drawLine(ctx,x1,y1,x2,y2,lineWidth=1,strokeStyle="black")
+			drawLine(ctx,getRandomInt(0,640),getRandomInt(0, 480),getRandomInt(0,640),getRandomInt(0, 480),getRandomInt(1, 20),getRandomColor())
 		}
 
 		//event handlers 
@@ -210,12 +168,11 @@
 			console.log(mouseX,mouseY);
 
 			for(let i = 0; i < 10; i++){
-				let x = getRandomInt(-100,100) + mouseX;
-				let y = getRandomInt(-100,100) + mouseY;
-				let width = getRandomInt(20,50);
-				let height = getRandomInt(20,50);
+				let x = getRandomInt(-75,75) + mouseX;
+				let y = getRandomInt(-75,75) + mouseY;
+				let radius = getRandomInt(5,30);
 				let color = getRandomColor();
-				drawRectangle(ctx, x, y, width, height, color);
+				drawArc(ctx,x,y,radius,0,Math.PI*2,color)
 			}
 
 		}
@@ -238,6 +195,37 @@
 			ctx.restore();
 		}
 
+		function drawArc(ctx, x, y, radius, startAngle = 0, endAngle = Math.PI*2, fillStyle="black",lineWidth=0,strokeStyle="black"){
+			ctx.save();
+			ctx.fillStyle = fillStyle;
+			ctx.beginPath();
+			ctx.arc(x,y,radius,startAngle,endAngle,false);
+			
+			ctx.fill();
+
+			if(lineWidth > 0){
+				ctx.lineWidth = lineWidth;
+				ctx.strokeStyle = strokeStyle;
+				ctx.stroke();
+			}
+
+			ctx.closePath();
+			ctx.restore();
+		}
+
+		function drawLine(ctx,x1,y1,x2,y2,lineWidth=1,strokeStyle="black"){
+			ctx.save();
+			ctx.lineWidth = lineWidth;
+			ctx.strokeStyle = strokeStyle;
+			ctx.beginPath();
+			ctx.moveTo(x1,y1);
+			ctx.lineTo(x2,y2);
+			ctx.stroke();
+
+			ctx.closePath();
+			ctx.restore();
+		}
+
 	</script>
 </head>
 <body>
@@ -248,12 +236,21 @@
 	<section>
 		<button id="btnPlay">Play</button>
 		<button id="btnPause">Pause</button>
+		<button id="btnClear">Clear Screen</button
 	</section>
 
 	<section>
 		<span>
 		  <input type="checkbox" id="cbRectangles" checked>
 		  <label for="cbRectangles">Rectangles</label>
+		</span>
+		<span>
+			<input type="checkbox" id="cbArcs" checked>
+			<label for="cbArcs">Arcs</label>
+		</span>
+		<span>
+			<input type="checkbox" id="cbLines" checked>
+			<label for="cbLines">Lines</label>
 		</span>
 	</section>
 
