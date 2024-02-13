@@ -1,5 +1,5 @@
 import { getRandomColor, getRandomInt } from "./utils.js";
-import { drawArc, drawLine,drawRectangle } from "./canvas-utils.js";
+import { drawArc,drawRandomArc,drawLine,drawRandomLine,drawRectangle,drawRandomRect } from "./canvas-utils.js";
 
 //global variables
 let ctx;
@@ -71,16 +71,6 @@ let setupUI = () =>{
 	document.querySelector("#cb-lines").onclick = (e) => {createLines = e.target.checked;}
 }
 
-let drawRandomRect = (ctx) => {
-	drawRectangle(ctx,getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90),getRandomInt(10, 90),getRandomColor(),0,getRandomColor())
-}
-
-let drawRandomArc = (ctx) => {
-	drawArc(ctx, getRandomInt(0, 640), getRandomInt(0, 480),getRandomInt(0, 30),0,Math.PI * 2, getRandomColor());
-}
-let drawRandomLine = (ctx) => {
-	drawLine(ctx,getRandomInt(0,640),getRandomInt(0, 480),getRandomInt(0,640),getRandomInt(0, 480),getRandomInt(1, 20),getRandomColor())
-}
 //event handlers 
 let canvasClicked = (e) => {
 	let rect = e.target.getBoundingClientRect();

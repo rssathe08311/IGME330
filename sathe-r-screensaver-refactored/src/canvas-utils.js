@@ -1,4 +1,6 @@
-export { drawArc, drawLine,drawRectangle };
+import { getRandomColor, getRandomInt } from "./utils.js";
+
+export { drawArc,drawRandomArc,drawLine,drawRandomLine,drawRectangle,drawRandomRect };
 
 let drawRectangle = (ctx,x,y,width,height,fillStyle=`black`,lineWidth=0,strokeStyle=`black`) => {
 	ctx.save();
@@ -40,4 +42,15 @@ let drawLine = (ctx,x1,y1,x2,y2,lineWidth=1,strokeStyle=`black`) => {
 	ctx.stroke();
 	ctx.closePath();
 	ctx.restore();
+}
+
+let drawRandomRect = (ctx) => {
+	drawRectangle(ctx,getRandomInt(0, 640), getRandomInt(0, 480), getRandomInt(10, 90),getRandomInt(10, 90),getRandomColor(),0,getRandomColor())
+}
+
+let drawRandomArc = (ctx) => {
+	drawArc(ctx, getRandomInt(0, 640), getRandomInt(0, 480),getRandomInt(0, 30),0,Math.PI * 2, getRandomColor());
+}
+let drawRandomLine = (ctx) => {
+	drawLine(ctx,getRandomInt(0,640),getRandomInt(0, 480),getRandomInt(0,640),getRandomInt(0, 480),getRandomInt(1, 20),getRandomColor())
 }
