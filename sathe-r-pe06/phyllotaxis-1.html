@@ -12,6 +12,7 @@
     const divergence = 137.5; //divergence angle
     const c = 4; //padding between florets
 	const fps = 1000/60;
+	const d = 361; //degrees 
 
     window.onload = init;
 
@@ -33,7 +34,6 @@
         // `c` is the "padding/spacing" between the dots
         let a = n * dtr(divergence); //angle
         let r = c * Math.sqrt(n); //center pole
-		const d = 361; //degrees 
         //console.log(a,r);
 
         // now calculate the `x` and `y`
