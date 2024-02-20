@@ -9,10 +9,14 @@
 	const canvasWidth = 400, canvasHeight = 300;
 	let ctx;
     let n = 0;//generation number
-    const divergence = 137.5; //divergence angle
+    const divergence = 137.5; //divergence angle 137.5
     const c = 4; //padding between florets
 	const fps = 1000/60;
 	const d = 361; //degrees 
+	let canvas_box;// the canvas
+	let clicked = false;
+	let radius = 2;
+	let radius_select;
 
     window.onload = init;
 
@@ -21,11 +25,27 @@
 		canvas.width = canvasWidth;
 		canvas.height = canvasHeight;
 		ctx.fillRect(0,0,canvasWidth,canvasHeight);
+		canvas_box = document.querySelector("canvas");
+		radius_select = document.querySelector("select");
+		
 
-        loop();
+        //call to the loop that draws the phyllotaxis
+		canvas_box.onclick = loop;
+
+		document.querySelector("#btn-restart").onclick = () =>{
+			ctx.fillRect(0,0,canvasWidth,canvasHeight);
+			n = 0;
+			radius = 2;
+			radius_select.value = 2;
+
+		}
+		document.querySelector("#ctrl-size").onchange = () => {
+			radius = radius_select.value;
+		}
 	}
 
     function loop(){
+		
         setTimeout(loop, fps);
 
         // each frame draw a new dot
@@ -41,9 +61,15 @@
         let y = r * Math.sin(a) + canvasHeight/2;
         //console.log(x,y);
 
+		//resets the drawing once it has reached the bounds of the cavas
+		if(x >= canvasWidth -20 && y >= canvasHeight){
+			n= 0;
+			ctx.fillRect(0,0,canvasWidth,canvasHeight);
+		}
+
         let aDegrees = (n * divergence) % d;
         let color = `hsl(${n/5 % d},100%,50%)`;
-        drawCircle(ctx,x,y,2,color);
+        drawCircle(ctx,x,y,radius,color);
 
         n++;
     }
@@ -66,7 +92,32 @@
 	</script>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+	<canvas id="canvas"></canvas>
+
+	<div id="controls">
+		<label>Dot Size</label>
+		<select id="ctrl-size">
+			<option value="2">2</option>
+			<option value="4">4</option>
+			<option value="6">6</option>
+			<option value="8">8</option>
+		</select>
+
+		<button id="btn-restart">Restart App</button>
+	</div>
+
+	<div id="information">
+		<h2>About The App</h2>
+		<ul>
+			<li>The drop down menu above is so that the user can change the radius of the dots being drawn</li>
+			<li>The Restart App button resets the radius to 2 as well as resetting the position so that the drawing draws from the center again.</li>
+			<li>Other Changes
+				<ul>
+					<li>Changed FPS to 60</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
 
 </body>
 </html>
