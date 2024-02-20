@@ -10,13 +10,13 @@
 	let ctx;
     let n = 0;//generation number
     const divergence = 137.5; //divergence angle 137.5
-    const c = 4; //padding between florets
-	const fps = 1000/60;
+    let c = 4; //padding between florets
+	let fps;
 	const d = 361; //degrees 
 	let canvas_box;// the canvas
 	let clicked = false;
 	let radius = 2;
-	let radius_select;
+	let fps_select;
 
     window.onload = init;
 
@@ -26,27 +26,35 @@
 		canvas.height = canvasHeight;
 		ctx.fillRect(0,0,canvasWidth,canvasHeight);
 		canvas_box = document.querySelector("canvas");
-		radius_select = document.querySelector("select");
+		fps_select = document.querySelector("select");
 		
 
         //call to the loop that draws the phyllotaxis
-		canvas_box.onclick = loop;
+		loop();
+		
+
+		canvas_box.onclick = drawFlower;
 
 		document.querySelector("#btn-restart").onclick = () =>{
 			ctx.fillRect(0,0,canvasWidth,canvasHeight);
 			n = 0;
 			radius = 2;
-			radius_select.value = 2;
+			fps_select.value = 60;
+			fps = 1000/fps_select.value;
 
 		}
-		document.querySelector("#ctrl-size").onchange = () => {
-			radius = radius_select.value;
+		document.querySelector("#ctrl-fps").onchange = () => {
+			fps = 1000/fps_select.value;
 		}
 	}
+
 
     function loop(){
 		
         setTimeout(loop, fps);
+
+		c += 0.01;
+		radius += 0.01;
 
         // each frame draw a new dot
         // `a` is the angle
@@ -63,6 +71,8 @@
 
 		//resets the drawing once it has reached the bounds of the cavas
 		if(x >= canvasWidth -20 && y >= canvasHeight){
+			c = 4;
+			radius = 2;
 			n= 0;
 			ctx.fillRect(0,0,canvasWidth,canvasHeight);
 		}
@@ -71,8 +81,31 @@
         let color = `hsl(${n/5 % d},100%,50%)`;
         drawCircle(ctx,x,y,radius,color);
 
+		
         n++;
     }
+	function drawFlower(e){
+		let rect = e.target.getBoundingClientRect();
+		let mouseX = e.clientX - rect.x;
+		let mouseY = e.clientY - rect.y;
+
+		let gen_num = 0;
+
+		console.log("test")
+		for(let i = 0; i < 20; i++){
+			let a = gen_num * dtr(divergence); //angle
+        	let r = (c-1)*Math.sqrt(gen_num); //center pole
+
+			let x = r * Math.cos(a) + mouseX;
+        	let y = r * Math.sin(a) + mouseY;
+
+			let aDegrees = (gen_num * divergence) % d;
+			let color = `hsl(${gen_num/5 % d},100%,50%)`;
+			
+			drawCircle(ctx,x,y,radius,color);
+			gen_num ++;
+		}
+	}
 
 	// helpers
 	function dtr(degrees){
@@ -96,11 +129,11 @@
 
 	<div id="controls">
 		<label>Dot Size</label>
-		<select id="ctrl-size">
-			<option value="2">2</option>
-			<option value="4">4</option>
-			<option value="6">6</option>
-			<option value="8">8</option>
+		<select id="ctrl-fps">
+			<option value="60">60</option>
+			<option value="30">30</option>
+			<option value="24">24</option>
+			<option value="12">12</option>
 		</select>
 
 		<button id="btn-restart">Restart App</button>
@@ -109,11 +142,13 @@
 	<div id="information">
 		<h2>About The App</h2>
 		<ul>
-			<li>The drop down menu above is so that the user can change the radius of the dots being drawn</li>
-			<li>The Restart App button resets the radius to 2 as well as resetting the position so that the drawing draws from the center again.</li>
+			<li>The drop down menu above is so that the user can change the fps of the animation</li>
+			<li>The Restart App button resets the fps to 60 as well as resetting the position so that the drawing draws from the center again.</li>
+			<li>Clicking on the canvas will draw small flowers</li>
 			<li>Other Changes
 				<ul>
-					<li>Changed FPS to 60</li>
+					<li>Changed FPS to 60 for the default</li>
+					<li>The dots get larger the closer they get to the edges of the canvas</li>
 				</ul>
 			</li>
 		</ul>
