@@ -14,9 +14,9 @@ import * as utils from './utils.js';
 let gradient_checkbox = document.querySelector("#cb-gradient");
 let bars_checkbox = document.querySelector("#cb-bars");
 let circles_checkbox = document.querySelector("#cb-circles");
-let noise_checkbox = document.querySelector("#noiseCB");
-let invert_checkbox = document.querySelector("#invertCB");
-let emboss_checkbox = document.querySelector("#embossCB");
+let noise_checkbox = document.querySelector("#cb-noise");
+let invert_checkbox = document.querySelector("#cb-invert");
+let emboss_checkbox = document.querySelector("#cb-emboss");
 
 let drawParams = {
   showGradient  : true,
@@ -81,8 +81,8 @@ const setupUI = (canvasElement) => {
     }
   }
   //C - hookup volume slider & label
-  let volumeSlider = document.querySelector("#volumeSlider");
-  let volumeLabel = document.querySelector("#volumeLabel");
+  let volumeSlider = document.querySelector("#slider-volume");
+  let volumeLabel = document.querySelector("#label-volume");
 
   //add .oninput event to slider
   volumeSlider.oninput = e => {
