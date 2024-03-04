@@ -5,16 +5,26 @@
 	<title>Web Audio 2</title>
 	<style>
 		canvas{border:1px solid black;display:block;}
+
+        *{font-family:sans-serif;}
+        span{margin-right:2em;}
+        #slider-distortion{position:relative;top:.7em;}
 	</style>
 </head>
 <body>
-<canvas width="640" height="480"></canvas>
+    <p>
+        <span><label for="cb-highshelf">Highshelf Filter (Treble)</label><input type="checkbox" id="cb-highshelf"></span>
+        <span><label for="cb-lowshelf">Lowshelf Filter (Bass)</label><input type="checkbox" id="cb-lowshelf"></span>
+        <span><label for="cb-distortion">Distortion</label><input type="checkbox" id="cb-distortion"></span>
+        <span>0 <input type="range" min="0" max="100" value="0" id="slider-distortion"> 100</span>
+      </p>
+    <canvas width="640" height="480"></canvas>
 
 <!-- use obama-oilspill.mp3 or human-voice.mp3 -->
 <audio controls src="sounds/obama-oilspill.mp3"></audio>
 
 <script>
-	const NUM_SAMPLES = 32;
+	const NUM_SAMPLES = 64;
 	// 1 - get reference to <audio> element on page
 	let audioElement = document.querySelector('audio');
 			
@@ -54,14 +64,40 @@
 	
 	// canvas stuff
 	let ctx = document.querySelector("canvas").getContext("2d");
-	const BAR_WIDTH = 30;
+	const BAR_WIDTH = 15;
 	const MAX_BAR_HEIGHT = 100;
 	const PADDING = 4;
 	const MIDDLE_Y = ctx.canvas.height/2;
+    let highshelf = false;
+    let biquadFilter = audioCtx.createBiquadFilter();
+    biquadFilter.type = "highshelf";
 	
-	
+	setupUI();
 	
 	loop();
+
+    function setupUI(){
+        // I. set the initial state of the high shelf checkbox
+        document.querySelector('#cb-highshelf').checked = highshelf; // `highshelf` is a boolean we will declare in a second
+        
+        // II. change the value of `highshelf` every time the high shelf checkbox changes state
+        document.querySelector('#cb-highshelf').onchange = e => {
+            highshelf = e.target.checked;
+            toggleHighshelf(); // turn on or turn off the filter, depending on the value of `highshelf`!
+        };
+        
+        // III. 
+        toggleHighshelf(); // when the app starts up, turn on or turn off the filter, depending on the value of `highshelf`!
+    }
+
+    function toggleHighshelf(){
+        if(highshelf){
+            biquadFilter.frequency.setValueAtTime(1000, audioCtx.currentTime); // we created the `biquadFilter` (i.e. "treble") node last time
+            biquadFilter.gain.setValueAtTime(25, audioCtx.currentTime);
+        }else{
+            biquadFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+        }
+    }
 	
 	function loop() { 
 	  // 9 - this schedules a call to the loop() method in 1/60 second
@@ -78,15 +114,37 @@
      	  /* YOU WRITE THIS! */
           ctx.fillStyle = "rgba(0,0,0,.1)";
           ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
-          ctx.fillStyle = "red";
+          //ctx.fillStyle = "red";
           ctx.save();
-          ctx.translate(0, MIDDLE_Y - 100);
+          ctx.translate(320, MIDDLE_Y - 100);
           for(let b of data){
             let percent = b/255;
+            if(percent < .02) percent = 0.02;
             ctx.translate(BAR_WIDTH, 0);
+            ctx.rotate(Math.PI * 2/32)
+            ctx.save();
+            ctx.scale(1,-1);
+            ctx.fillStyle = `rgb(${b}, ${b-128},${255-b})`;
             ctx.fillRect(0,0,BAR_WIDTH,MAX_BAR_HEIGHT * percent);
-
+            ctx.restore();
+            ctx.translate(PADDING, 0);//add space between bars
           }
+          ctx.restore();
+
+          //line
+          ctx.save();
+          ctx.strokeStyle = "white";
+          ctx.lineWidth = 3;
+          let x = -(ctx.canvas.width/data.length) 
+          let y = MIDDLE_Y + 200;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          for(let b of data){
+            ctx.lineTo(x, y-b);
+            x += (ctx.canvas.width/(data.length-10));
+          }
+          ctx.stroke();
+          ctx.closePath();
           ctx.restore();
     
 	}
