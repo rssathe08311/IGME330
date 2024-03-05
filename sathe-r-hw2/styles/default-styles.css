@@ -1,6 +1,8 @@
 body {
-    background: #eeeeee;
+    background: #9cb9ba;
     font-family: tahoma, verdana, sans serif;
+    display: flex;
+    flex-direction: column;
   }
   
   canvas {
@@ -28,6 +30,10 @@ body {
     width: 6rem;
   }
   
+  button{
+    border-radius: 10px;
+  }
+
   button[data-playing="yes"]:after{
     content: "Pause";
   }
@@ -39,4 +45,26 @@ body {
   #btn-fs{
     font-size: 1.2rem;
     width: 8rem;
+  }
+
+  #container{
+    display: flex;
+  }
+
+  #button_controls{
+    align-items: baseline;
+  }
+
+  #controls{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 5em;
+
+  }
+
+  .checkbox_controls{
+    display: flex;
+    flex-direction: column;
+    
   }

@@ -8,9 +8,10 @@
 </head>
 <body>
 <main>
+  <div id="container">
   <canvas width="800" height="400"></canvas>
   <div id="controls">
-    <section>
+    <section id="button_controls">
       <button id="btn-play" data-playing="no"></button>
       <button id="btn-fs">Full Screen</button>
 		
@@ -23,7 +24,7 @@
       </label>
     </section>
 
-    <section>
+    <section class="checkbox_controls">
       <span><input type="checkbox" id="cb-gradient"><label for="gradientCB">Show Gradient</label></span>
       <span><input type="checkbox" id="cb-bars"><label for="barsCB">Show Bars</label></span>
       <span><input type="checkbox" id="cb-circles"><label for="circlesCB">Show Circles</label></span>
@@ -39,6 +40,7 @@
       <span id="label-volume">???</span>
     </section>
   </div>
+</div>
 </main>
 </body>
 </html>
