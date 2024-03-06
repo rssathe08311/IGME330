@@ -13,24 +13,38 @@ import * as utils from './utils.js';
 
 let gradient_checkbox = document.querySelector("#cb-gradient");
 let bars_checkbox = document.querySelector("#cb-bars");
+let rays_checkbox = document.querySelector("#cb-rays");
+let lines_checkbox = document.querySelector("#cb-lines");
 let circles_checkbox = document.querySelector("#cb-circles");
 let noise_checkbox = document.querySelector("#cb-noise");
 let invert_checkbox = document.querySelector("#cb-invert");
 let emboss_checkbox = document.querySelector("#cb-emboss");
+let treble_checkbox = document.querySelector("#cb-treble");
+let bass_checkbox = document.querySelector("#cb-bass");
+let sunset_select = document.querySelector("#sunset-select");
+let sunrise_select = document.querySelector("#sunrise-select");
+let night_select = document.querySelector("#night-select");
 
 let drawParams = {
   showGradient  : true,
   showBars      : true,
+  showRays      : true,
+  showLines     : false,
   showCircles   : true,
   showNoise     : false,
   showInvert    : false,
-  showEmboss    : false
+  showEmboss    : false,
+  playTreble    : false,
+  playBass      : false
 }
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
 	sound1  :  "media/New Adventure Theme.mp3"
 });
+
+let highshelf = false;
+let lowshelf = false;
 
 const init = () => {
 	console.log("init called");
@@ -43,10 +57,32 @@ const init = () => {
   bars_checkbox.checked = drawParams.showBars;
   circles_checkbox.checked = drawParams.showCircles;
   noise_checkbox.checked = drawParams.showNoise;
+  rays_checkbox.checked = drawParams.showRays;
+  lines_checkbox.checked = drawParams.showLines;
 
 	setupUI(canvasElement);
   canvas.setupCanvas(canvasElement,audio.analyserNode);
   loop();
+}
+
+const toggleHighshelf = () => {
+  if(highshelf){
+    audio.biquadFilter.frequency.setValueAtTime(1000,audio.audioCtx.currentTime);
+    audio.biquadFilter.gain.setValueAtTime(25,audio.audioCtx.currentTime);
+  }
+  else{
+    audio.biquadFilter.gain.setValueAtTime(0,audio.audioCtx.currentTime);
+  }
+}
+
+const toggleLowshelf = () => {
+  if(lowshelf){
+    audio.lowshelfBiquadFilter.frequency.setValueAtTime(1000,audio.audioCtx.currentTime);
+    audio.lowshelfBiquadFilter.gain.setValueAtTime(15,audio.audioCtx.currentTime);
+  }
+  else{
+    audio.lowshelfBiquadFilter.gain.setValueAtTime(0,audio.audioCtx.currentTime);
+  }
 }
 
 const setupUI = (canvasElement) => {
@@ -106,6 +142,42 @@ const setupUI = (canvasElement) => {
     }
   }
 
+  sunset_select.addEventListener('change', function(){
+    if(sunset_select.checked){
+      drawParams.showGradient = true;
+      drawParams.showBars = false;
+      drawParams.showInvert = false;
+      drawParams.showRays = true;
+      drawParams.showCircles = true;
+      drawParams.showLines = true;
+    }
+  })
+
+  sunrise_select.addEventListener('change', function(){
+    if(sunrise_select.checked){
+      drawParams.showGradient = true;
+      drawParams.showInvert = true;
+      drawParams.showBars = true;
+      drawParams.showRays = true;
+      drawParams.showCircles = true;
+      drawParams.showLines = false;
+    }
+  })
+
+  night_select.addEventListener('change', function(){
+    if(night_select.checked){
+      drawParams.showGradient = false;
+      drawParams.showInvert = false;
+      drawParams.showBars = false;
+      drawParams.showRays = false;
+      drawParams.showCircles = true;
+      drawParams.showLines = true;
+    }
+  })
+
+  treble_checkbox.checked = highshelf;
+  bass_checkbox.checked = lowshelf;
+
   //checkbox event listeners
   gradient_checkbox.addEventListener('change', function() {
     drawParams.showGradient = this.checked;
@@ -114,6 +186,14 @@ const setupUI = (canvasElement) => {
   bars_checkbox.addEventListener('change', function() {
     drawParams.showBars = this.checked;
   });
+
+  rays_checkbox.addEventListener('change', function(){
+    drawParams.showRays = this.checked;
+  })
+
+  lines_checkbox.addEventListener('change', function(){
+    drawParams.showLines = this.checked;
+  })
 
   circles_checkbox.addEventListener('change', function() {
       drawParams.showCircles = this.checked;
@@ -130,6 +210,19 @@ const setupUI = (canvasElement) => {
   emboss_checkbox.addEventListener('change', function() {
     drawParams.showEmboss = this.checked;
   })
+
+  treble_checkbox.onchange = e => {
+    highshelf = e.target.checked;
+    toggleHighshelf();
+  }
+
+  bass_checkbox.onchange = e => {
+    lowshelf = e.target.checked;
+    toggleLowshelf();
+  }
+
+  toggleHighshelf();
+  toggleLowshelf();
   
 	
 } // end setupUI
@@ -140,5 +233,7 @@ const loop = () => {
     //function to call on the visualizer module in order to display the animations
     canvas.draw(drawParams);
   }
+
+
 
 export {init};

@@ -1,8 +1,9 @@
 body {
-    background: #9cb9ba;
+    background: #202020;
     font-family: tahoma, verdana, sans serif;
     display: flex;
     flex-direction: column;
+    color: #fafafa;
   }
   
   canvas {
@@ -49,22 +50,23 @@ body {
 
   #container{
     display: flex;
+    flex-direction: column;
   }
 
   #button_controls{
-    align-items: baseline;
+    margin: auto;
   }
 
   #controls{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 5em;
 
   }
 
   .checkbox_controls{
+    justify-content:space-evenly;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     
   }
