@@ -8,6 +8,7 @@
 */
 
 import * as utils from './utils.js';
+import { Sprites } from './sprites.js';
 
 let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
 
@@ -106,6 +107,7 @@ const draw = (params={}) => {
     }
 
     if (params.showLines) {
+        
         //line
         for (let i = 0; i < 10; i++) {
             ctx.save();
@@ -158,6 +160,14 @@ const draw = (params={}) => {
             ctx.restore();
         }
         ctx.restore();
+    }
+
+    if(params.showPhyllo){
+        let phyllo1 = new Sprites(ctx, ctx.canvas.width / audioData.length, canvasHeight/2, canvasWidth, canvasHeight, 137.5);
+        phyllo1.update(audioData);
+
+        let phyllo2 = new Sprites(ctx, (ctx.canvas.width / audioData.length) + canvasWidth, canvasHeight/2, canvasWidth, canvasHeight, 137.5);
+        phyllo2.update(audioData);
     }
 
     

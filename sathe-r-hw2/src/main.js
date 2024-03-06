@@ -16,6 +16,7 @@ let bars_checkbox = document.querySelector("#cb-bars");
 let rays_checkbox = document.querySelector("#cb-rays");
 let lines_checkbox = document.querySelector("#cb-lines");
 let circles_checkbox = document.querySelector("#cb-circles");
+let phyllo_checkbox = document.querySelector("#cb-phyllo");
 let noise_checkbox = document.querySelector("#cb-noise");
 let invert_checkbox = document.querySelector("#cb-invert");
 let emboss_checkbox = document.querySelector("#cb-emboss");
@@ -31,6 +32,7 @@ let drawParams = {
   showRays      : true,
   showLines     : false,
   showCircles   : true,
+  showPhyllo    : true,
   showNoise     : false,
   showInvert    : false,
   showEmboss    : false,
@@ -40,7 +42,7 @@ let drawParams = {
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
-	sound1  :  "media/New Adventure Theme.mp3"
+	sound1  :  "media/softvibes.mp3"
 });
 
 let highshelf = false;
@@ -59,6 +61,7 @@ const init = () => {
   noise_checkbox.checked = drawParams.showNoise;
   rays_checkbox.checked = drawParams.showRays;
   lines_checkbox.checked = drawParams.showLines;
+  phyllo_checkbox.checked = drawParams.showPhyllo;
 
 	setupUI(canvasElement);
   canvas.setupCanvas(canvasElement,audio.analyserNode);
@@ -172,6 +175,7 @@ const setupUI = (canvasElement) => {
       drawParams.showRays = false;
       drawParams.showCircles = true;
       drawParams.showLines = true;
+
     }
   })
 
@@ -198,6 +202,10 @@ const setupUI = (canvasElement) => {
   circles_checkbox.addEventListener('change', function() {
       drawParams.showCircles = this.checked;
   });
+
+  phyllo_checkbox.addEventListener('change', function() {
+    drawParams.showPhyllo = this.checked;
+});
 
   noise_checkbox.addEventListener('change', function() {
       drawParams.showNoise = this.checked;
