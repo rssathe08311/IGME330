@@ -10,6 +10,7 @@
 import * as canvas from './visualizer.js';
 import * as audio from './audio.js';
 import * as utils from './utils.js';
+import * as jsonLoader from './jsonLoader.js';
 
 let gradient_checkbox = document.querySelector("#cb-gradient");
 let bars_checkbox = document.querySelector("#cb-bars");
@@ -25,6 +26,8 @@ let bass_checkbox = document.querySelector("#cb-bass");
 let sunset_select = document.querySelector("#sunset-select");
 let sunrise_select = document.querySelector("#sunrise-select");
 let night_select = document.querySelector("#night-select");
+let shape_checkbox = document.querySelector("#cb-shape");
+let visual_select = document.querySelector("#info-visualizer");
 
 let drawParams = {
   showGradient  : true,
@@ -33,11 +36,13 @@ let drawParams = {
   showLines     : false,
   showCircles   : true,
   showPhyllo    : true,
+  showSquares   : false,
   showNoise     : false,
   showInvert    : false,
   showEmboss    : false,
   playTreble    : false,
-  playBass      : false
+  playBass      : false,
+  toggleWave    : false
 }
 
 // 1 - here we are faking an enumeration
@@ -62,6 +67,9 @@ const init = () => {
   rays_checkbox.checked = drawParams.showRays;
   lines_checkbox.checked = drawParams.showLines;
   phyllo_checkbox.checked = drawParams.showPhyllo;
+  shape_checkbox.checked = drawParams.showSquares;
+
+  jsonLoader.load();
 
 	setupUI(canvasElement);
   canvas.setupCanvas(canvasElement,audio.analyserNode);
@@ -146,7 +154,7 @@ const setupUI = (canvasElement) => {
   }
 
   sunset_select.addEventListener('change', function(){
-    if(sunset_select.checked){
+    if(this.checked){
       drawParams.showGradient = true;
       drawParams.showBars = false;
       drawParams.showInvert = false;
@@ -154,10 +162,10 @@ const setupUI = (canvasElement) => {
       drawParams.showCircles = true;
       drawParams.showLines = true;
     }
-  })
+});
 
-  sunrise_select.addEventListener('change', function(){
-    if(sunrise_select.checked){
+sunrise_select.addEventListener('change', function(){
+    if(this.checked){
       drawParams.showGradient = true;
       drawParams.showInvert = true;
       drawParams.showBars = true;
@@ -165,19 +173,19 @@ const setupUI = (canvasElement) => {
       drawParams.showCircles = true;
       drawParams.showLines = false;
     }
-  })
+});
 
-  night_select.addEventListener('change', function(){
-    if(night_select.checked){
+night_select.addEventListener('change', function(){
+    if(this.checked){
       drawParams.showGradient = false;
       drawParams.showInvert = false;
       drawParams.showBars = false;
       drawParams.showRays = false;
       drawParams.showCircles = true;
       drawParams.showLines = true;
-
     }
-  })
+});
+
 
   treble_checkbox.checked = highshelf;
   bass_checkbox.checked = lowshelf;
@@ -203,6 +211,10 @@ const setupUI = (canvasElement) => {
       drawParams.showCircles = this.checked;
   });
 
+  shape_checkbox.addEventListener('change', function() {
+    drawParams.showSquares = this.checked;
+  });
+
   phyllo_checkbox.addEventListener('change', function() {
     drawParams.showPhyllo = this.checked;
 });
@@ -217,7 +229,7 @@ const setupUI = (canvasElement) => {
 
   emboss_checkbox.addEventListener('change', function() {
     drawParams.showEmboss = this.checked;
-  })
+  });
 
   treble_checkbox.onchange = e => {
     highshelf = e.target.checked;
@@ -227,6 +239,15 @@ const setupUI = (canvasElement) => {
   bass_checkbox.onchange = e => {
     lowshelf = e.target.checked;
     toggleLowshelf();
+  }
+
+  visual_select.onchange = e => {
+    if(e.target.value == "frequency"){
+      drawParams.toggleWave = false;
+    }
+    else{
+      drawParams.toggleWave = true;
+    }
   }
 
   toggleHighshelf();

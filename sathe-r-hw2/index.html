@@ -39,6 +39,11 @@
       </label><br>
     </form>
 
+    <select id="info-visualizer">
+      <option value="frequency" selected> Frequency Data</option>
+      <option value="waveform">Waveform</option>
+    </select>
+
     <label class="titles">Specific Controls</label>
     <section class="checkbox_controls">
       <span><input type="checkbox" id="cb-gradient"><label for="gradientCB">Show Gradient</label></span>
@@ -47,6 +52,7 @@
       <span><input type="checkbox" id="cb-lines"><label for="linesCB">Show Lines</label></span>
       <span><input type="checkbox" id="cb-circles"><label for="circlesCB">Show Circles</label></span>
       <span><input type="checkbox" id="cb-phyllo"><label for="phylloCB">Show Phyllotaxis</label></span>
+      <span><input type="checkbox" id="cb-shape"><label for="shapeCB">Show Squares</label></span>
       <span><input type="checkbox" id="cb-noise"><label for="noiseCB">Show Noise</label></span>
       <span><input type="checkbox" id="cb-invert"><label for="invertCB">Show Invert</label></span>
       <span><input type="checkbox" id="cb-emboss"><label for="embossCB">Show Emboss</label></span>
@@ -61,7 +67,7 @@
   </div>
 </div>
 
-<p>retrieve json info and put it here</p>
+<div id="output"></div>
 </main>
 </body>
 </html>

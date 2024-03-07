@@ -8,9 +8,12 @@
 */
 
 import * as utils from './utils.js';
-import { Sprites } from './sprites.js';
+import { Phyllo} from './phyllo.js';
+import { Shapes } from './shapes.js';
 
 let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
+
+let scaleNum = 0;
 
 
 const setupCanvas = (canvasElement,analyserNodeRef) => {
@@ -29,36 +32,46 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 const draw = (params={}) => {
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
-	analyserNode.getByteFrequencyData(audioData);
 	// OR
 	//analyserNode.getByteTimeDomainData(audioData); // waveform data
+    if(params.toggleWave){
+        analyserNode.getByteTimeDomainData(audioData);
+    }
+    else{
+        analyserNode.getByteFrequencyData(audioData);
+    }
 	
 	// 2 - draw background
 	ctx.save();
     ctx.fillStyle = "black";
-    ctx.globalAlpha = 0.1;
-    ctx.fillRect(0,0,canvasWidth,canvasHeight);
+    ctx.globalAlpha = 0.3;
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
     ctx.restore();
+
 		
 	// 3 - draw gradient
 	if(params.showGradient){
-        ctx.save();
+        //ctx.save();
         ctx.fillStyle = gradient;
-        ctx.globalAlpha = 0.3;
-        ctx.fillRect(0,0,canvasWidth,canvasHeight);
-        ctx.restore();
+        //ctx.globalAlpha = 0.3;
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        //ctx.restore();
+
 
     }
+    
 
     if(params.showRays){
         //ctx.fillStyle = "rgba(0,0,0,.1)";
         if(params.showGradient){
             ctx.fillStyle = gradient;
+            ctx.globalAlpha = 0.1;
         }
         else{
             ctx.fillStyle = "black";
+            ctx.globalAlpha = 1;
         }
-        ctx.globalAlpha = 0.4;
+        
         ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
           //ctx.fillStyle = "red";
           ctx.save();
@@ -70,7 +83,8 @@ const draw = (params={}) => {
             ctx.rotate(Math.PI * 2/30)
             ctx.save();
             ctx.scale(1,-1);
-            ctx.fillStyle = utils.makeColor(0, 200, 150,1 );
+            ctx.fillStyle = utils.makeColor(0, 200, 150,1);
+            ctx.fillRect(0,0,10,100 * percent);
             ctx.fillRect(0,0,10,100 * percent);
             ctx.restore();
             ctx.translate(5, 0);//add space between bars
@@ -163,11 +177,27 @@ const draw = (params={}) => {
     }
 
     if(params.showPhyllo){
-        let phyllo1 = new Sprites(ctx, ctx.canvas.width / audioData.length, canvasHeight/2, canvasWidth, canvasHeight, 137.5);
+        let phyllo1 = new Phyllo(ctx, ctx.canvas.width / audioData.length, canvasHeight/2, canvasWidth, canvasHeight, 137.5);
         phyllo1.update(audioData);
 
-        let phyllo2 = new Sprites(ctx, (ctx.canvas.width / audioData.length) + canvasWidth, canvasHeight/2, canvasWidth, canvasHeight, 137.5);
+        let phyllo2 = new Phyllo(ctx, (ctx.canvas.width / audioData.length) + canvasWidth, canvasHeight/2, canvasWidth, canvasHeight, 137.5);
         phyllo2.update(audioData);
+    }
+
+    if(params.showSquares){
+        if(params.showGradient){
+            ctx.fillStyle = gradient;
+            ctx.globalAlpha = 0.1;
+        }
+        else{
+            ctx.fillStyle = "black";
+            ctx.globalAlpha = 1;
+        }
+
+        let shape1 = new Shapes(ctx, 100, 100, 10000/ audioData.length, 10000/ audioData.length, "yellow", scaleNum);
+        shape1.update();
+        let shape2 = new Shapes(ctx, 600, 300, 10000/ audioData.length, 10000/ audioData.length, "orange", scaleNum);
+        shape2.update();
     }
 
     

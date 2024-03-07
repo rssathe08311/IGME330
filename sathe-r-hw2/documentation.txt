@@ -1,3 +1,20 @@
+Name: Reva Sathe
+Class: IGME 330 Section 03
+
+
+Audio Effects: The two audio effects I added to my visualizer were a treble booster and a bass booster that can be toggled via checkboxes on the side control panel.
+
+Sprite Classes: 
+Both of these classes utilize audioData's length.
+    1. Phyllo - draws a cluster of shapes similar to a Phyllotaxis that grows, shrinks, and populates according to the notes currently being played and the point you are at in a song.
+    2. Shapes - draws a square that grows and pulsates based upon the point you are at in the song as well as the notes of the song.
+
+av-data.js: Stores the title of the application, the array of songs you can play, and the instructions and warnings for opperating the visualizer.
+
+Visual Improvements: I changed the colors so that they were less garrish and made a few different themes that the user can use that fit different times of day. 
+
+
+Audio Credits
 evolution.mp3
     - Music by Bensound.com
     - License code: XRPVXXMXFU0HYHJZ
