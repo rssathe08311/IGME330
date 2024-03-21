@@ -8,30 +8,56 @@
 </head>
 <body>
 <main>
+  <div id="container">
   <canvas width="800" height="400"></canvas>
   <div id="controls">
+    <div id="button_controls">
     <section>
       <button id="btn-play" data-playing="no"></button>
       <button id="btn-fs">Full Screen</button>
 		
       <label>Track: 
         <select id="select-track">
-          <option value="media/New Adventure Theme.mp3" selected>New Adventure Theme</option>
-          <option value="media/Peanuts Theme.mp3">Peanuts Theme</option>
-          <option value="media/The Picard Song.mp3">The Picard Song</option>
+          <option value="media/softvibes.mp3" selected>Soft Vibes</option>
+          <option value="media/evolution.mp3">Evolution</option>
+          <option value="media/allthat.mp3">All That</option>
         </select>
       </label>
+    </div>
     </section>
 
-    <section>
+    <label class="titles">Visualizer Themes</label>
+    <form>
+      <label for="Sunrise">
+        <input type="radio" id="sunrise-select" name="option" value="option1"> Sunrise Theme
+      </label>
+      <label for="Sunset">
+        <input type="radio" id="sunset-select" name="option" value="option2"> Sunset Theme
+      </label>
+      <label for="option3">
+        <input type="radio" id="night-select" name="option" value="option3"> Night Theme
+      </label><br>
+    </form>
+
+    <select id="info-visualizer">
+      <option value="frequency" selected> Frequency Data</option>
+      <option value="waveform">Waveform</option>
+    </select>
+
+    <label class="titles">Specific Controls</label>
+    <section class="checkbox_controls">
       <span><input type="checkbox" id="cb-gradient"><label for="gradientCB">Show Gradient</label></span>
       <span><input type="checkbox" id="cb-bars"><label for="barsCB">Show Bars</label></span>
+      <span><input type="checkbox" id="cb-rays"><label for="raysCB">Show Rays</label></span>
+      <span><input type="checkbox" id="cb-lines"><label for="linesCB">Show Lines</label></span>
       <span><input type="checkbox" id="cb-circles"><label for="circlesCB">Show Circles</label></span>
+      <span><input type="checkbox" id="cb-phyllo"><label for="phylloCB">Show Phyllotaxis</label></span>
+      <span><input type="checkbox" id="cb-shape"><label for="shapeCB">Show Squares</label></span>
       <span><input type="checkbox" id="cb-noise"><label for="noiseCB">Show Noise</label></span>
       <span><input type="checkbox" id="cb-invert"><label for="invertCB">Show Invert</label></span>
       <span><input type="checkbox" id="cb-emboss"><label for="embossCB">Show Emboss</label></span>
-      <span><input type="checkbox" id="cb-bass"><label for="bassCB">Show Bass</label></span>
-      <span><input type="checkbox" id="cb-treble"><label for="trebleCB">Show Treble</label></span>
+      <span><input type="checkbox" id="cb-bass"><label for="bassCB">Boost Bass</label></span>
+      <span><input type="checkbox" id="cb-treble"><label for="trebleCB">Boost Treble</label></span>
     </section>
 		
     <section>
@@ -39,6 +65,9 @@
       <span id="label-volume">???</span>
     </section>
   </div>
+</div>
+
+<div id="output"></div>
 </main>
 </body>
 </html>
