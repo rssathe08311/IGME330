@@ -29,3 +29,5 @@ allthat.mp3
     - Music by Bensound
     - License code: UAEYWYCYRNPOJ3EZ
     - https://www.bensound.com/royalty-free-music/track/all-that-chill-hop
+
+    <a href="https://www.flaticon.com/free-icons/music" title="music icons">Music icons created by Freepik - Flaticon</a>

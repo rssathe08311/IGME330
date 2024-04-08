@@ -1,0 +1,114 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotdog Finder</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="./styles/default-styles.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar has-shadow is-danger">
+      <!-- logo / brand-->
+      <div class="navbar-brand">
+        <a class="navbar-item" href="index.html">
+            <img src="images/music.png" alt="music image">
+        </a>
+        <a class="navbar-burger" id="burger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+      </div>
+
+      <div class="navbar-menu" id="nav-links">
+        <div class="navbar-start">
+          <a class="navbar-item" href="about.html">
+            About
+          </a>
+        
+          <a class="navbar-item is-hoverable" href="index.html">
+            App
+          </a>
+        
+        </div> <!-- end navbar-start -->
+      </div>
+    </nav>
+
+    
+
+    <!-- Product info -->
+
+    <div class="columns is-vcentered">
+      <div class="column">  
+        <div class="hero is-large is-light p-2">
+          <div class="hero-head">
+            <p class="subtitle">
+              Audio Visualizer
+            </p>
+            <p class="title has-text-danger">
+              Seeing the Music
+            </p>
+            <div id="app-info" class="section">
+                <p class="subtitle has-text-danger">About the Application</p>
+                <p>
+                    This web application is a web based audio/music Visualizer utilizing the JavaScript canvas API in order to create
+                    responsive animations. Along with visual attributes that enhance your listening experience, this audio visualizer
+                    also has the ability to augment the audio itself which is possible through toggling with the controls.
+                </p>
+                <p>
+                    Audio Effects: The two audio effects I added to my visualizer were a treble booster and a bass booster that can be toggled via checkboxes on the side control panel.
+                </p>
+                
+           
+
+
+                <p class="subtitle pt-6 has-text-danger">Credits/Attributions</p>
+                <ul>
+                    <li>
+                        <p class="has-text-weight-semibold">evolution.mp3</p>
+                        <ul class="pl-4">
+                            <li>- Music by Bensound.com</li>
+                            <li>- License code: XRPVXXMXFU0HYHJZ</li>
+                            <li>- <a href="https://www.bensound.com/royalty-free-music/track/evolution-epic-nature">evolution.mp3</li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <p class="has-text-weight-semibold">softvibes.mp3</p>
+                        <ul class="pl-4">
+                            <li>- Music by Bensound.com</li>
+                            <li>- License code: PLCE8N5EGYR1GPBD</li>
+                            <li>- <a href="https://www.bensound.com/royalty-free-music/track/soft-vibes-chill-lofi">softvibes.mp3</li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <p class="has-text-weight-semibold">allthat.mp3</p>
+                        <ul class="pl-4">
+                            <li>- Music by Bensound.com</li>
+                            <li>- License code: UAEYWYCYRNPOJ3EZ</li>
+                            <li>- <a href="https://www.bensound.com/royalty-free-music/track/all-that-chill-hop">allthat.mp3</li>
+                        </ul>
+                    </li>
+                </ul>
+                <a href="https://www.flaticon.com/free-icon/music_2402461?term=music&page=1&position=12&origin=tag&related_id=2402461" title="music icons">Music icons created by Freepik - Flaticon</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+        const burgerIcon = document.querySelector('#burger');
+        const navbarMenu = document.querySelector('#nav-links');
+    
+        burgerIcon.addEventListener('click', () => {
+            navbarMenu.classList.toggle('is-active');
+        })
+      </script>
+</body>
+</html>

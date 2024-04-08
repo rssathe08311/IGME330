@@ -5,15 +5,45 @@
   <title>Audio Visualizer</title>
   <link href="./styles/default-styles.css" type="text/css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="./src/loader.js" type="module"></script>
 </head>
-<body class="has-background-dark has-text-light">
-<main>
-  <div id="container" class="py-4 columns">
-  <canvas width="800" height="400" class="columns is-centered"></canvas>
-  <div id="controls" class="pl-6">
+<body class=" has-text-dark is-light">
+<main class="is-light">
+  <nav class="navbar has-shadow is-danger">
+    <!-- logo / brand-->
+    <div class="navbar-brand">
+      <a class="navbar-item" href="index.html">
+          <img src="images/music.png" alt="music image">
+      </a>
+      <a class="navbar-burger" id="burger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </a>
+    </div>
+
+    <div class="navbar-menu" id="nav-links">
+      <div class="navbar-start">
+        <a class="navbar-item" href="about.html">
+          About
+        </a>
+      
+        <a class="navbar-item is-hoverable" href="index.html">
+          App
+        </a>
+      
+      </div> <!-- end navbar-start -->
+    </div>
+  </nav>
+  </nav>
+
+  
+  <div id="container" class="py-4 columns is-light">
+  <canvas width="800" height="400" class="px-6"></canvas>
+  <div id="controls" class="pl-6 is-light">
     <div id="button-controls" class="pl-6">
-        <button id="btn-play" data-playing="no"></button>
+        <button id="btn-play" data-playing="no">Play</button>
         <button id="btn-fs">Full Screen</button>
       
         <label>Track: 
@@ -66,7 +96,15 @@
   </div>
 </div>
 
-<div id="output" class="section container"></div>
+<div id="output" class="section "></div>
 </main>
+<script>
+  const burgerIcon = document.querySelector('#burger');
+  const navbarMenu = document.querySelector('#nav-links');
+
+  burgerIcon.addEventListener('click', () => {
+      navbarMenu.classList.toggle('is-active');
+  })
+</script>
 </body>
 </html>

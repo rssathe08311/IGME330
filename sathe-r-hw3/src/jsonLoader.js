@@ -19,8 +19,8 @@ const load = () => {
 
         // Build the HTML content
         let html = "";
-        html += `<h2 class="title has-text-light">${obj.title ? obj.title : "No title found"}</h2>`;
-        html += `<p class="pt-4 subtitle has-text-light">Music Selection</p>`;
+        html += `<h2 class="title has-text-dark">${obj.title ? obj.title : "No title found"}</h2>`;
+        html += `<p class="pt-4 subtitle has-text-dark">Music Selection</p>`;
         html += `<ol class="pl-6">${obj.audioFiles.map(w => `<li>${w}</li>`).join("")}</ol>`;
         html += `<p class="pt-4">${obj.instructions}</p>`;
 
