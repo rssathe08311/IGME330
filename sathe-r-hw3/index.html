@@ -1,60 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Playlist Finder</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="utf-8">
+  <title>Audio Visualizer</title>
+  <link href="./styles/default-styles.css" type="text/css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <script src="./src/loader.js" type="module"></script>
 </head>
-<body>
-    <header>
-        <h1>Spotify Playlist Finder!!</h1>
-    </header>
-    <div class="container">        
-        <form action="">
-            <input type="hidden" id='hidden_token'>
-            <div id="countDiv" style="margin-top: 10px;margin-bottom: 10px;">
-                <!-- Add this input element where you want the text box to appear -->
-                <label for="songCount">Number of Songs:</label>
-                <input type="text" id="songCount" name="songCount" value="25">
-            </div>
-            <div id="countDiv" style="margin-top: 10px;margin-bottom: 10px;">
-                <label for="Genre">Genre:</label>
-                <select name="" id="select_genre">
-                    <option>Select...</option>                    
-                </select>
-            </div>
-            <div id="countDiv" style="margin-top: 10px;margin-bottom: 10px;">
-                <label for="Genre">Playlists:</label>
-                <select name="" id="select_playlist" >
-                    <option>Select...</option>                    
-                </select>
-            </div>                  
-            <div >
-                <button type="submit" id="btn_submit">Search</button>
-            </div>          
-        </form>        
-        <div>
-            <div id="listGroup">
-                <div id="playlistDropdown">
-                    
-                </div>                                             
-            </div>
-            <div id="song-detail">                
-            </div>
-        </div>   
+<body class="has-background-dark has-text-light">
+<main>
+  <div id="container" class="py-4 columns">
+  <canvas width="800" height="400" class="columns is-centered"></canvas>
+  <div id="controls" class="pl-6">
+    <div id="button-controls" class="pl-6">
+        <button id="btn-play" data-playing="no"></button>
+        <button id="btn-fs">Full Screen</button>
+      
+        <label>Track: 
+          <select id="select-track">
+            <option value="media/softvibes.mp3" selected>Soft Vibes</option>
+            <option value="media/evolution.mp3">Evolution</option>
+            <option value="media/allthat.mp3">All That</option>
+          </select>
+        </label>
     </div>
-    <footer>
-        <p>Last Updated 11/28/23 by Reva Sathe</p>
-        <p>Link to <a href="Documentation/documentation.html">Documentation</a></p>
-        <p>Refrenced Tutorial by <a href="https://www.youtube.com/watch?v=SbelQW2JaDQ">Avery Wicks</a></p>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="js/main.js" type="text/javascript"></script>
+
+    <label class="titles pl-6">Visualizer Themes</label>
+    <form class="pl-6">
+      <label for="sunrise-select">
+        <input type="radio" id="sunrise-select" name="option" value="option1"> Sunrise Theme
+      </label>
+      <label for="sunset-select">
+        <input type="radio" id="sunset-select" name="option" value="option2"> Sunset Theme
+      </label>
+      <label for="night-select">
+        <input type="radio" id="night-select" name="option" value="option3"> Night Theme
+      </label><br>
+    </form>
+
+    <select id="info-visualizer" class="ml-6">
+      <option value="frequency" selected> Frequency Data</option>
+      <option value="waveform">Waveform</option>
+    </select>
+
+    <label class="titles pl-6">Specific Controls</label>
+    <div class="checkbox-controls pl-6">
+      <span><input type="checkbox" id="cb-gradient"><label for="cb-gradient">Show Gradient</label></span>
+      <span><input type="checkbox" id="cb-bars"><label for="cb-bars">Show Bars</label></span>
+      <span><input type="checkbox" id="cb-rays"><label for="cb-rays">Show Rays</label></span>
+      <span><input type="checkbox" id="cb-lines"><label for="cb-lines">Show Lines</label></span>
+      <span><input type="checkbox" id="cb-circles"><label for="cb-circles">Show Circles</label></span>
+      <span><input type="checkbox" id="cb-phyllo"><label for="cb-phyllo">Show Phyllotaxis</label></span>
+      <span><input type="checkbox" id="cb-shape"><label for="cb-shape">Show Squares</label></span>
+      <span><input type="checkbox" id="cb-noise"><label for="cb-noise">Show Noise</label></span>
+      <span><input type="checkbox" id="cb-invert"><label for="cb-invert">Show Invert</label></span>
+      <span><input type="checkbox" id="cb-emboss"><label for="cb-emboss">Show Emboss</label></span>
+      <span><input type="checkbox" id="cb-bass"><label for="cb-bass">Boost Bass</label></span>
+      <span><input type="checkbox" id="cb-treble"><label for="cb-treble">Boost Treble</label></span>
+    </div>
+		
+    <div>
+      Volume: <input type="range" id="slider-volume" min="0" max="2" value="1" step="0.01">
+      <span id="label-volume">???</span>
+    </div>
+  </div>
+</div>
+
+<div id="output" class="section container"></div>
+</main>
 </body>
 </html>
