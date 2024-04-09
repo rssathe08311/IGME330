@@ -1,7 +1,7 @@
 Name: Reva Sathe
 Class: IGME 330 Section 03
 
-
+Homework 2 Changes:
 Audio Effects: The two audio effects I added to my visualizer were a treble booster and a bass booster that can be toggled via checkboxes on the side control panel.
 
 Sprite Classes: 
@@ -12,6 +12,12 @@ Both of these classes utilize audioData's length.
 av-data.js: Stores the title of the application, the array of songs you can play, and the instructions and warnings for opperating the visualizer.
 
 Visual Improvements: I changed the colors so that they were less garrish and made a few different themes that the user can use that fit different times of day. 
+
+Homework 3 Changes:
+Language: Typescript
+    - I changed all of my old javascript classes to be Typescript classes. I first set up Typescript and Webpack tooling. Then I resolved Typescript errors such as import and export changes, 
+        type assignment, strong assignment of variables, organizing enums and interfaces into different files, and the restructuring of sprite classes. Then finally I organized the src folder. 
+        Then I bundled the project into bundle.js based upon the typescript transpiling instructions. 
 
 
 Audio Credits

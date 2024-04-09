@@ -1,5 +1,17 @@
-class Phyllo{
-    constructor(ctx, x, y, maxX, maxY, divergence) {
+export default class Phyllo{
+    ctx: CanvasRenderingContext2D;
+    x: number;
+    y: number;
+    maxX: number;
+    maxY: number;
+    divergence: number;
+    fps: number;
+    n: number;
+    c: number;
+    radius: number;
+    animationTimeout: any;
+
+    constructor(ctx: CanvasRenderingContext2D, x: number, y: number, maxX: number, maxY: number, divergence: number) {
         this.ctx = ctx;
         this.x = x;
         this.y = y;
@@ -12,11 +24,11 @@ class Phyllo{
         this.radius = 2;
     }
 
-    update(audioData) {
+    update(audioData:Uint8Array) {
         this.loop(audioData);
     }
 
-    loop(audioData) {
+    loop(audioData:Uint8Array) {
         this.c += 0.01;
         this.radius += 0.01;
     
@@ -45,11 +57,11 @@ class Phyllo{
         this.animationTimeout = setTimeout(() => this.loop(audioData), 1000 / this.fps);
     }
 
-    dtr(degrees) {
+    dtr(degrees:number) {
         return degrees * (Math.PI / 180);
     }
 
-    drawCircle(x, y, radius, color) {
+    drawCircle(x:number, y:number, radius:number, color:string) {
         this.ctx.save();
         this.ctx.fillStyle = color;
         this.ctx.beginPath();
@@ -64,4 +76,3 @@ class Phyllo{
     }
 }
 
-export { Phyllo };

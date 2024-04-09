@@ -7,16 +7,24 @@
 	  - maybe a better name for this file/module would be *visualizer.js* ?
 */
 
-import * as utils from './utils.js';
-import { Phyllo} from './phyllo.js';
-import { Shapes } from './shapes.js';
+import * as utils from './utils';
+import Phyllo  from './classes/phyllo';
+import Shapes from './classes/shapes';
+import { DrawParams } from './interfaces/drawParams.interface';
 
-let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
+
+
+let ctx: CanvasRenderingContext2D;
+let canvasWidth: number;
+let canvasHeight: number;
+let gradient: CanvasGradient;
+let analyserNode: AnalyserNode;
+let audioData;
 
 let scaleNum = 0;
 
 
-const setupCanvas = (canvasElement,analyserNodeRef) => {
+const setupCanvas = (canvasElement: HTMLCanvasElement, analyserNodeRef: AnalyserNode) => {
 	// create drawing context
 	ctx = canvasElement.getContext("2d");
 	canvasWidth = canvasElement.width;
@@ -29,7 +37,7 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	audioData = new Uint8Array(analyserNode.fftSize/2);
 }
 
-const draw = (params={}) => {
+const draw = (params:DrawParams) => {
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
 	// OR

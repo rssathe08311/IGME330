@@ -7,27 +7,29 @@
 // In this instance, we feel the code is more readable if written this way
 // If you want to re-write these as ES6 arrow functions, to be consistent with the other files, go ahead!
 
-import * as canvas from './visualizer.js';
-import * as audio from './audio.js';
-import * as utils from './utils.js';
-import * as jsonLoader from './jsonLoader.js';
+import * as canvas from './visualizer';
+import * as audio from './audio';
+import * as utils from './utils';
+import * as jsonLoader from './jsonLoader';
+import { DEFAULTS } from './enums/main-defaults.enum';
+import { DrawParams } from './interfaces/drawParams.interface';
 
-let gradient_checkbox = document.querySelector("#cb-gradient");
-let bars_checkbox = document.querySelector("#cb-bars");
-let rays_checkbox = document.querySelector("#cb-rays");
-let lines_checkbox = document.querySelector("#cb-lines");
-let circles_checkbox = document.querySelector("#cb-circles");
-let phyllo_checkbox = document.querySelector("#cb-phyllo");
-let noise_checkbox = document.querySelector("#cb-noise");
-let invert_checkbox = document.querySelector("#cb-invert");
-let emboss_checkbox = document.querySelector("#cb-emboss");
-let treble_checkbox = document.querySelector("#cb-treble");
-let bass_checkbox = document.querySelector("#cb-bass");
-let sunset_select = document.querySelector("#sunset-select");
-let sunrise_select = document.querySelector("#sunrise-select");
-let night_select = document.querySelector("#night-select");
-let shape_checkbox = document.querySelector("#cb-shape");
-let visual_select = document.querySelector("#info-visualizer");
+let gradient_checkbox = document.querySelector("#cb-gradient") as HTMLInputElement;
+let bars_checkbox = document.querySelector("#cb-bars") as HTMLInputElement;
+let rays_checkbox = document.querySelector("#cb-rays") as HTMLInputElement;
+let lines_checkbox = document.querySelector("#cb-lines") as HTMLInputElement;
+let circles_checkbox = document.querySelector("#cb-circles") as HTMLInputElement;
+let phyllo_checkbox = document.querySelector("#cb-phyllo") as HTMLInputElement;
+let noise_checkbox = document.querySelector("#cb-noise") as HTMLInputElement;
+let invert_checkbox = document.querySelector("#cb-invert") as HTMLInputElement;
+let emboss_checkbox = document.querySelector("#cb-emboss") as HTMLInputElement;
+let treble_checkbox = document.querySelector("#cb-treble") as HTMLInputElement;
+let bass_checkbox = document.querySelector("#cb-bass") as HTMLInputElement;
+let sunset_select = document.querySelector("#sunset-select") as HTMLInputElement;
+let sunrise_select = document.querySelector("#sunrise-select") as HTMLInputElement;
+let night_select = document.querySelector("#night-select") as HTMLInputElement;
+let shape_checkbox = document.querySelector("#cb-shape") as HTMLInputElement;
+let visual_select = document.querySelector("#info-visualizer") as HTMLInputElement;
 
 let drawParams = {
   showGradient  : true,
@@ -45,10 +47,7 @@ let drawParams = {
   toggleWave    : false
 }
 
-// 1 - here we are faking an enumeration
-const DEFAULTS = Object.freeze({
-	sound1  :  "media/softvibes.mp3"
-});
+
 
 let highshelf = false;
 let lowshelf = false;
@@ -58,7 +57,12 @@ const init = () => {
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
     audio.setupWebaudio(DEFAULTS.sound1);
     console.log(audio)
-	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
+    let canvasElement = document.querySelector("canvas") as HTMLCanvasElement | null;
+
+    if (!canvasElement) {
+      console.error("Canvas element not found in the document.");
+      return; // Exit the function if canvas element is not found
+  }
 
   gradient_checkbox.checked = drawParams.showGradient;
   bars_checkbox.checked = drawParams.showBars;
@@ -98,55 +102,67 @@ const toggleLowshelf = () => {
 
 const setupUI = (canvasElement) => {
   // A - hookup fullscreen button
-  const fsButton = document.querySelector("#btn-fs");
-  const playButton = document.querySelector("#btn-play");
-	
-  // add .onclick event to button
-  fsButton.onclick = e => {
-    console.log("goFullscreen() called");
-    utils.goFullscreen(canvasElement);
-  };
+  
+    // Your code here
+    const fsButton = document.querySelector("#btn-fs") as HTMLButtonElement;
+    const playButton = document.querySelector("#btn-play") as HTMLButtonElement;
+    playButton.innerText = "Play";
 
-  //B - add .onclick event to button
+    try{
+      fsButton.addEventListener('click', () => {
+        console.log("goFullscreen() called");
+        utils.goFullscreen(canvasElement);
+      });
+    }
+    catch{
+      console.log("broken button");
+    }
+ 
+  // B - Add .onclick event to play button
   playButton.onclick = e => {
+    const target = e.target as HTMLInputElement;
     console.log(`audioCtx.state before = ${audio.audioCtx.state}`);
 
-    //check if context is in suspended state (autoplay policy)
+    // Check if context is in suspended state (autoplay policy)
     if(audio.audioCtx.state == "suspended"){
         audio.audioCtx.resume();
     }
     console.log(`audioCtx.state after = ${audio.audioCtx.state}`);
-    if(e.target.dataset.playing == "no"){
-        //if track is currently paused, play it
+    if(target.dataset.playing == "no"){
+        // If track is currently paused, play it
         audio.playCurrentSound();
-        e.target.dataset.playing = "yes";//will change the CSS to correlate with current state
-    }
-    //if track is playing pause it
-    else{
+        target.dataset.playing = "yes"; // Will change the CSS to correlate with current state
+        target.innerText = "Pause";
+    } else {
+        // If track is playing, pause it
         audio.pauseCurrentSound();
-        e.target.dataset.playing = "no";//will change the CSS to correlate with current state
+        target.dataset.playing = "no"; // Will change the CSS to correlate with current state
+        target.innerText = "Play";
     }
   }
   //C - hookup volume slider & label
-  let volumeSlider = document.querySelector("#slider-volume");
-  let volumeLabel = document.querySelector("#label-volume");
+  let volumeSlider = document.querySelector("#slider-volume") as HTMLInputElement;
+  let volumeLabel = document.querySelector("#label-volume") as HTMLButtonElement;
 
   //add .oninput event to slider
   volumeSlider.oninput = e => {
-    //set the gain
-    audio.setVolume(e.target.value);
-    //update value of label to match value of slider
-    volumeLabel.innerHTML = Math.round((e.target.value/2 * 100));
-  };
+    const target = e.target as HTMLInputElement;
+    // set the gain
+    audio.setVolume(parseFloat(target.value)); // Convert to number using parseFloat()
+    // update value of label to match value of slider
+    let num: any = Math.round((parseFloat(target.value) / 2 * 100)); // Convert to number
+    volumeLabel.innerHTML = num + "";
+};
 
   //set value of label to match initial value of slider
   volumeSlider.dispatchEvent(new Event("input"));
 
   //D - hookup track <select>
-  let trackSelect = document.querySelector("#select-track");
+  let trackSelect = document.querySelector("#select-track") as HTMLInputElement;
   //add .onchange event to <select>
   trackSelect.onchange = e => {
-    audio.loadSoundFile(e.target.value);
+    const target = e.target as HTMLInputElement;
+    audio.loadSoundFile(target.value);
     //pause the current track if it is playing
     if(playButton.dataset.playing == "yes"){
       playButton.dispatchEvent(new MouseEvent("click"));
@@ -232,17 +248,20 @@ night_select.addEventListener('change', function(){
   });
 
   treble_checkbox.onchange = e => {
-    highshelf = e.target.checked;
+    const target = e.target as HTMLInputElement;
+    highshelf = target.checked;
     toggleHighshelf();
   }
 
   bass_checkbox.onchange = e => {
-    lowshelf = e.target.checked;
+    const target = e.target as HTMLInputElement;
+    lowshelf = target.checked;
     toggleLowshelf();
   }
 
   visual_select.onchange = e => {
-    if(e.target.value == "frequency"){
+    const target = e.target as HTMLInputElement;
+    if(target.value == "frequency"){
       drawParams.toggleWave = false;
     }
     else{
@@ -252,7 +271,7 @@ night_select.addEventListener('change', function(){
 
   toggleHighshelf();
   toggleLowshelf();
-  
+
 	
 } // end setupUI
 

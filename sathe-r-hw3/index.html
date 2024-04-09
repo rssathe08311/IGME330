@@ -6,12 +6,12 @@
   <link href="./styles/default-styles.css" type="text/css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="./src/loader.js" type="module"></script>
+  
 </head>
 <body class=" has-text-dark is-light">
 <main class="is-light">
   <nav class="navbar has-shadow is-danger">
-    <!-- logo / brand-->
+
     <div class="navbar-brand">
       <a class="navbar-item" href="index.html">
           <img src="images/music.png" alt="music image">
@@ -33,18 +33,18 @@
           App
         </a>
       
-      </div> <!-- end navbar-start -->
+      </div>
     </div>
   </nav>
   </nav>
 
   
   <div id="container" class="py-4 columns is-light">
-  <canvas width="800" height="400" class="px-6"></canvas>
-  <div id="controls" class="pl-6 is-light">
-    <div id="button-controls" class="pl-6">
-        <button id="btn-play" data-playing="no">Play</button>
-        <button id="btn-fs">Full Screen</button>
+    <canvas width="800" height="400" class="px-6"></canvas>
+  <div id="controls" class="pl-6 is-light column is-full">
+    <div id="button-controls" class="pl-6 field is-grouped">
+        <button id="btn-play" data-playing="no" class="button is-info mr-3 is-danger"></button>
+        <button id="btn-fs" class="button is-info mr-3 is-danger">Full Screen</button>
       
         <label>Track: 
           <select id="select-track">
@@ -55,7 +55,7 @@
         </label>
     </div>
 
-    <label class="titles pl-6">Visualizer Themes</label>
+    <label class="titles pl-6 is-size-5 has-text-danger">Visualizer Themes</label>
     <form class="pl-6">
       <label for="sunrise-select">
         <input type="radio" id="sunrise-select" name="option" value="option1"> Sunrise Theme
@@ -73,23 +73,77 @@
       <option value="waveform">Waveform</option>
     </select>
 
-    <label class="titles pl-6">Specific Controls</label>
-    <div class="checkbox-controls pl-6">
-      <span><input type="checkbox" id="cb-gradient"><label for="cb-gradient">Show Gradient</label></span>
-      <span><input type="checkbox" id="cb-bars"><label for="cb-bars">Show Bars</label></span>
-      <span><input type="checkbox" id="cb-rays"><label for="cb-rays">Show Rays</label></span>
-      <span><input type="checkbox" id="cb-lines"><label for="cb-lines">Show Lines</label></span>
-      <span><input type="checkbox" id="cb-circles"><label for="cb-circles">Show Circles</label></span>
-      <span><input type="checkbox" id="cb-phyllo"><label for="cb-phyllo">Show Phyllotaxis</label></span>
-      <span><input type="checkbox" id="cb-shape"><label for="cb-shape">Show Squares</label></span>
-      <span><input type="checkbox" id="cb-noise"><label for="cb-noise">Show Noise</label></span>
-      <span><input type="checkbox" id="cb-invert"><label for="cb-invert">Show Invert</label></span>
-      <span><input type="checkbox" id="cb-emboss"><label for="cb-emboss">Show Emboss</label></span>
-      <span><input type="checkbox" id="cb-bass"><label for="cb-bass">Boost Bass</label></span>
-      <span><input type="checkbox" id="cb-treble"><label for="cb-treble">Boost Treble</label></span>
+    <div class="pl-6">
+      <p class="titles  is-size-5 has-text-danger">Specific Controls</p>
+      <div class="checkbox-controls">
+        <div class="control">
+          <label for="cb-gradient" class="checkbox">
+            <input type="checkbox" id="cb-gradient">
+            Show Gradient
+          </label>
+       
+          <label for="cb-bars" class="checkbox">
+            <input type="checkbox" id="cb-bars">
+            Show Bars
+          </label>
+
+          <label for="cb-rays" class="checkbox">
+            <input type="checkbox" id="cb-rays">
+            Show Rays
+          </label>
+
+          <label for="cb-lines" class="checkbox">
+            <input type="checkbox" id="cb-lines">
+            Show Rays
+          </label>
+        </div>
+        <div class="control">
+          <label for="cb-circles" class="checkbox">
+            <input type="checkbox" id="cb-circles">
+            Show Circles
+          </label>
+       
+          <label for="cb-phyllo" class="checkbox">
+            <input type="checkbox" id="cb-phyllo">
+            Show Phyllotaxis
+          </label>
+
+          <label for="cb-shape" class="checkbox">
+            <input type="checkbox" id="cb-shape">
+            Show Shape
+          </label>
+
+          <label for="cb-noise" class="checkbox">
+            <input type="checkbox" id="cb-noise">
+            Show Noise
+          </label>
+        </div>
+        <div class="control">
+          <label for="cb-invert" class="checkbox">
+            <input type="checkbox" id="cb-invert">
+            Show Invert
+          </label>
+       
+          <label for="cb-emboss" class="checkbox">
+            <input type="checkbox" id="cb-emboss">
+            Show Emboss
+          </label>
+
+          <label for="cb-bass" class="checkbox">
+            <input type="checkbox" id="cb-bass">
+            Boost Bass
+          </label>
+
+          <label for="cb-treble" class="checkbox">
+            <input type="checkbox" id="cb-treble">
+            Boost Treble
+          </label>
+        </div>
+      </div>
     </div>
 		
-    <div>
+    <div class="pl-6">
+      <p class="titles  is-size-5 has-text-danger">Volume Control</p>
       Volume: <input type="range" id="slider-volume" min="0" max="2" value="1" step="0.01">
       <span id="label-volume">???</span>
     </div>
@@ -106,5 +160,8 @@
       navbarMenu.classList.toggle('is-active');
   })
 </script>
+<script src="./dist/bundle.js"></script>
 </body>
 </html>
+
+

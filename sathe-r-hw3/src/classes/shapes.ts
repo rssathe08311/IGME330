@@ -1,5 +1,15 @@
-class Shapes{
-    constructor(ctx, x, y, width, height, fillStyle, scale){
+export default class Shapes{
+
+    ctx: CanvasRenderingContext2D;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    fillStyle: string;
+    scale: number;
+    fps: number;
+
+    constructor(ctx: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, fillStyle:string, scale: number){
         this.ctx = ctx;
         this.x = x;
         this.y = y;
@@ -10,8 +20,8 @@ class Shapes{
         this.fps = 60;
     }
 
-    update(audioData) {
-        this.drawSquare(audioData);
+    update() {
+        this.drawSquare();
     }
 
     drawSquare(){
@@ -30,4 +40,3 @@ class Shapes{
     }
 }
 
-export {Shapes};

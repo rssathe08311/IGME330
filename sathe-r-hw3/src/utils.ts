@@ -1,8 +1,10 @@
-const makeColor = (red, green, blue, alpha = 1) => {
+import { ColorStop } from './interfaces/colorStop.interface';
+
+const makeColor = (red:number, green:number, blue:number, alpha = 1) => {
     return `rgba(${red},${green},${blue},${alpha})`;
   };
   
-  const getRandom = (min, max) => {
+  const getRandom = (min:number, max:number) => {
     return Math.random() * (max - min) + min;
   };
   
@@ -12,7 +14,7 @@ const getRandomColor = () => {
   return `rgba(${getByte()},${getByte()},${getByte()},1)`;
 };
 
-const getLinearGradient = (ctx,startX,startY,endX,endY,colorStops) => {
+const getLinearGradient = (ctx: CanvasRenderingContext2D,startX:number,startY:number,endX:number,endY:number,colorStops:ColorStop[]) => {
   let lg = ctx.createLinearGradient(startX,startY,endX,endY);
   for(let stop of colorStops){
     lg.addColorStop(stop.percent,stop.color);
