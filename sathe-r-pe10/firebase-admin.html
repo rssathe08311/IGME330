@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Firebase Admin</title>
+</head>
+<body>
+<h1>High Scores</h1>
+<ul id="scoresList"><li>No data yet!</li></ul>
+
+<script type="module">
+ /* #1 - The Firebase setup code goes here  - both imports, `firebaseConfig` and `app` */
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getDatabase, ref, set, push, onValue } from  "https://www.gstatic.com/firebasejs/10.11.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyDrb8SOfvx6j82kI2jcSuPUb6CEbM0b4cc",
+      authDomain: "high-scores-4c5c5.firebaseapp.com",
+      projectId: "high-scores-4c5c5",
+      storageBucket: "high-scores-4c5c5.appspot.com",
+      messagingSenderId: "601384446851",
+      appId: "1:601384446851:web:50198bc9cc699be71f24b6"
+    };
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  console.log(app); // make sure firebase is loaded
+	
+	
+	
+  // #2 NEW STUFF
+  const db = getDatabase();
+  const scoresRef = ref(db, 'scores');
+  let scoreList = document.querySelector("#scoresList");
+
+  const scoresChanged = (snapshot) => {
+    snapshot.forEach(score => {
+      const childKey = score.key;
+      const childData = score.val();
+      console.log(childKey,childData);
+      scoreList.innerHTML += `<li>${childData.userId} - ${childData.game} - ${childData.score}</li>`;
+    });
+  }
+
+  onValue(scoresRef,scoresChanged);
+	
+</script>
+</body>
+</html>
