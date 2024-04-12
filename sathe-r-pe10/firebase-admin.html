@@ -41,6 +41,16 @@
   }
 
   onValue(scoresRef,scoresChanged);
+
+  const madmaxChanged = (data) => {
+    let obj = data.val();
+    console.log("scores2/ - madmaxChanged", obj);
+    console.log("game = ", obj.game);
+    console.log("score = ", obj.score);
+  };
+
+  const scoresRef2 = ref(db, 'scores2/MADMAX');
+  onValue(scoresRef2,madmaxChanged);
 	
 </script>
 </body>
